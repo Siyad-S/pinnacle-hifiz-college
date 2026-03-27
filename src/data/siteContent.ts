@@ -2,16 +2,16 @@ import { SiteContent } from "@/types";
 
 export const siteContent: SiteContent = {
     metadata: {
-        name: "Pinnacle Hifzul Qur’an Academy",
+        name: "Pinnacle Hifzul Quran Academy",
         tagline: "Excellence in Hifz & Modern Education",
-        description: "A distinguished institution pursuing Hifz-ul-Qur’an alongside CBSE school education in a premium residential environment.",
+        description: "Welcome to Pinnacle Hifzul Quran Academy in Kannanalloor, Kollam. The premier institution for Hifz-ul-Qur’an and CBSE education. Join our top residential Islamic school in Kerala for Tajweed mastery and academic excellence.",
     },
 
     hero: {
         type: "image",
         src: "/images/stats-banner.png",
         poster: "/images/hero-fallback.jpg",
-        title: "Pinnacle Hifzul Qur’an Academy",
+        title: "Pinnacle Hifzul Quran Academy",
         subtitle: "Established 2016. A distinguished institution where students pursue Hifz-ul-Qur’an alongside CBSE school education in a nurturing environment.",
         ctaPrimary: { text: "Our Programs", link: "/programs" },
         ctaSecondary: { text: "Admissions", link: "/contact" },
@@ -26,8 +26,8 @@ export const siteContent: SiteContent = {
 
     about: {
         title: "About Pinnacle",
-        heading: "Balancing Spiritual & Academic Excellence",
-        content: "Established on 21st March 2016, Pinnacle Hifzul Qur’an Academy is committed to maintaining a high standard of academic and spiritual excellence. We provide a comfortable, air-conditioned residential environment where students nurture their Qur’anic recitation with proper Tajweed while continuing their modern education.",
+        heading: "Pinnacle Hifzul Quran Academy: Spiritual & Academic Excellence",
+        content: "Located in Kannanalloor, Kollam, Pinnacle Hifzul Quran Academy is a premier institution established on 21st March 2016. We provide a comfortable, air-conditioned residential environment where students nurture their Qur’anic recitation with proper Tajweed while continuing their modern CBSE education.",
         features: [
             {
                 id: "f1",
@@ -124,7 +124,7 @@ export const siteContent: SiteContent = {
         title: "Contact Us",
         subtitle: "We are here to answer your questions about admissions and programs.",
         info: {
-            address: "Pinnacle Hifzul qraan and CBSE\nKannanallor nedumbana\nNEDUMPANA, KERALA 691576\nIndia",
+            address: "Pinnacle Hifzul Quran Academy\nKannanalloor, Kollam\nKerala 691576\nIndia",
             email: "pinnaclehifzulquranacademy@gmail.com",
             phone: "",
             mapEmbedUrl: "https://www.google.com/maps/embed?pb=...", // Add real Google Maps Embed URL here

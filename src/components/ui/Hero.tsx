@@ -64,7 +64,7 @@ export default function Hero({ data }: HeroProps) {
                 ) : (
                     <img
                         src={data.src}
-                        alt="Hero Background"
+                        alt="Pinnacle Quran Academy Campus and Students"
                         className="w-full h-full object-cover opacity-60"
                     />
                 )}

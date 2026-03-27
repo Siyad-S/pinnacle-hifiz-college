@@ -34,9 +34,14 @@ export const metadata: Metadata = {
     template: `%s | ${siteContent.metadata.name}`,
   },
   description: siteContent.metadata.description,
-  keywords: ["Hifz", "Quran Academy", "CBSE", "Tajweed", "Islamic Education", "Kerala", "Residential Quran School"],
-  authors: [{ name: "Pinnacle Hifzul Qur’an Academy" }],
-  creator: "Pinnacle Hifzul Qur’an Academy",
+  keywords: ["Pinnacle Hifzul Quran Academy", "Quran Academy Kannanalloor", "Hifz Academy Kollam", "Best Quran Academy in Kerala", "CBSE Islamic School Kollam", "Tajweed Mastery", "Kerala Residential Quran School"],
+  authors: [{ name: "Pinnacle Hifzul Quran Academy" }],
+  creator: "Pinnacle Hifzul Quran Academy",
+  icons: {
+    icon: "/logo/pinnacle-logo.png",
+    shortcut: "/logo/pinnacle-logo.png",
+    apple: "/logo/pinnacle-logo.png",
+  },
   openGraph: {
     type: "website",
     locale: "en_US",
@@ -83,6 +88,26 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} ${amiri.variable} antialiased`}
       >
         <Providers>
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{
+              __html: JSON.stringify({
+                "@context": "https://schema.org",
+                "@type": "EducationalOrganization",
+                "name": "Pinnacle Hifzul Quran Academy",
+                "alternateName": "Pinnacle Quran Academy Kollam",
+                "url": defaultUrl,
+                "description": siteContent.metadata.description,
+                "address": {
+                  "@type": "PostalAddress",
+                  "addressLocality": "Kannanalloor, Kollam",
+                  "addressRegion": "Kerala",
+                  "postalCode": "691576",
+                  "addressCountry": "IN"
+                }
+              })
+            }}
+          />
           {/* Global 3D Background */}
           <div className="fixed inset-0 z-0 pointer-events-none opacity-50">
             <CanvasWrapper cameraPosition={[0, 0, 20]} fov={60}>
