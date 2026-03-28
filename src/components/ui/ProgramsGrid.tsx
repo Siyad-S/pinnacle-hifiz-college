@@ -3,6 +3,8 @@
 import { Program } from '@/types';
 import { motion } from 'framer-motion';
 import { Calendar, Users, CheckCircle } from 'lucide-react';
+import ProgramModal from './ProgramModal';
+import { useState } from 'react';
 
 interface ProgramsGridProps {
     title: string;
@@ -12,8 +14,11 @@ interface ProgramsGridProps {
 }
 
 export default function ProgramsGrid({ title, subtitle, items, limitDescription = true }: ProgramsGridProps) {
+    const [selectedId, setSelectedId] = useState<string | null>(null);
+    const selectedProgram = items.find((p) => p.id === selectedId);
+
     return (
-        <section className="py-24 relative">
+        <section className="relative">
             <div className="container mx-auto px-4">
                 <div className="text-center mb-16 max-w-3xl mx-auto">
                     <motion.h2
@@ -39,12 +44,14 @@ export default function ProgramsGrid({ title, subtitle, items, limitDescription 
                     {items.map((program, index) => (
                         <motion.div
                             key={program.id}
+                            layoutId={`program-${program.id}`}
+                            onClick={() => setSelectedId(program.id)}
                             initial={{ opacity: 0, y: 30 }}
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
                             transition={{ delay: index * 0.1 }}
-                            whileHover={{ y: -10 }}
-                            className="group relative glass-card rounded-2xl overflow-hidden hover:bg-white/5 transition-all duration-300"
+                            whileHover={{ y: -5 }}
+                            className="group relative glass-card rounded-2xl overflow-hidden hover:bg-white/5 transition-all duration-300 flex flex-col h-full cursor-pointer"
                         >
                             {/* Image Header */}
                             <div className="relative h-48 overflow-hidden">
@@ -60,7 +67,7 @@ export default function ProgramsGrid({ title, subtitle, items, limitDescription 
                             </div>
 
                             {/* Content */}
-                            <div className="p-8">
+                            <div className="p-8 flex flex-col flex-grow">
                                 <div className="flex justify-between items-start mb-4">
                                     <h3 className="font-heading text-2xl font-bold text-white group-hover:text-primary transition-colors">
                                         {program.title}
@@ -72,7 +79,7 @@ export default function ProgramsGrid({ title, subtitle, items, limitDescription 
                                     )}
                                 </div>
 
-                                <p className={`text-slate-200 mb-6 ${limitDescription ? 'line-clamp-3' : ''}`}>
+                                <p className="text-slate-200 mb-6 flex-grow line-clamp-3">
                                     {program.description}
                                 </p>
 
@@ -98,6 +105,12 @@ export default function ProgramsGrid({ title, subtitle, items, limitDescription 
                         </motion.div>
                     ))}
                 </div>
+
+                {/* Modal */}
+                <ProgramModal 
+                    program={selectedProgram || null} 
+                    onClose={() => setSelectedId(null)} 
+                />
             </div>
         </section>
     );
