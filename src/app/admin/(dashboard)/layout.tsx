@@ -9,7 +9,7 @@ import AuthWrapper from '@/components/admin/AuthWrapper';
 // ─── Navigation items ────────────────────────────────────────────────────────
 const NAV_ITEMS: NavItem[] = [
     { id: 'gallery', label: 'Gallery', href: '/admin/gallery', icon: Images },
-    { id: 'content', label: 'Content Manager', href: '/admin/content', icon: FileText },
+    // { id: 'content', label: 'Content Manager', href: '/admin/content', icon: FileText },
 ];
 
 export default function AdminDashboardLayout({ children }: { children: React.ReactNode }) {
