@@ -41,9 +41,10 @@ export interface ContactInfo {
     phone: string;
     mapEmbedUrl: string; // Optional for iframe
     socials: {
-        facebook?: string;
+        // facebook?: string;
         instagram?: string;
-        youtube?: string;
+        // youtube?: string;
+        whatsapp?: string;
     };
 }
 

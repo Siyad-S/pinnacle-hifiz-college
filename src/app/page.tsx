@@ -1,11 +1,10 @@
-import { siteContent } from "@/data/siteContent";
+import { getSiteContent } from "@/lib/getContent";
 import Hero from "@/components/ui/Hero";
 import ProgramsGrid from "@/components/ui/ProgramsGrid";
 import GalleryGrid from "@/components/ui/GalleryGrid";
 import ContactForm from "@/components/ui/ContactForm";
 import Link from 'next/link';
 import { ArrowRight, BookOpen, Users, Heart } from 'lucide-react';
-import { Feature } from "@/types";
 
 // Icon mapper helper
 const IconMap: Record<string, any> = {
@@ -14,7 +13,8 @@ const IconMap: Record<string, any> = {
   Heart: Heart,
 };
 
-export default function Home() {
+export default async function Home() {
+  const siteContent = await getSiteContent();
 
   return (
     <main className="min-h-screen relative">
@@ -70,13 +70,11 @@ export default function Home() {
           items={siteContent.programs.items}
         />
 
-        {/* Parallax Quote Break? Optional */}
-
-        {/* <GalleryGrid
+        {/* Gallery — images fetched live from DB */}
+        <GalleryGrid
           title={siteContent.gallery.title}
           subtitle={siteContent.gallery.subtitle}
-          items={siteContent.gallery.items}
-        /> */}
+        />
 
         <ContactForm
           title={siteContent.contact.title}

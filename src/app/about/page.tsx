@@ -1,12 +1,23 @@
 import type { Metadata } from "next";
-import { siteContent } from "@/data/siteContent";
-
-export const metadata: Metadata = {
-  title: "About Us",
-  description: "Learn about our commitment to balancing spiritual & academic excellence at Pinnacle Hifzul Qur’an Academy.",
-};
+import { getSiteContent } from "@/lib/getContent";
 import { BookOpen, Users, Heart } from "lucide-react";
 import Image from "next/image";
+
+export async function generateMetadata(): Promise<Metadata> {
+  const siteContent = await getSiteContent();
+  return {
+    title: "About " + siteContent.metadata.name,
+    description: "Learn about our commitment to balancing spiritual & academic excellence at " + siteContent.metadata.name,
+    alternates: {
+      canonical: "/about",
+    },
+    openGraph: {
+      title: "About " + siteContent.metadata.name,
+      description: "Learn about our commitment to balancing spiritual & academic excellence at " + siteContent.metadata.name,
+      url: "/about",
+    },
+  };
+}
 
 // Helper for icons (duplicate considering move to utils if frequent)
 const IconMap: Record<string, any> = {
@@ -15,7 +26,8 @@ const IconMap: Record<string, any> = {
     Heart: Heart,
 };
 
-export default function AboutPage() {
+export default async function AboutPage() {
+    const siteContent = await getSiteContent();
     return (
         <main className="pt-24 min-h-screen">
             <div className="container mx-auto px-4 py-12">
@@ -46,7 +58,7 @@ export default function AboutPage() {
                     {/* Banner Background */}
                     <div className="absolute inset-0">
                         <Image
-                            src="/images/stats-banner.png"
+                            src="/images/banner.jpeg"
                             alt="Islamic Architecture Detail"
                             fill
                             className="object-cover transition-transform duration-700 group-hover:scale-105"

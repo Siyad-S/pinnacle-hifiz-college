@@ -35,10 +35,39 @@ export async function POST(req: Request) {
 
         if (error) {
             console.error('Resend error:', error);
+            // Don't fail the whole request just yet, we might still want to try saving to Google Sheets.
+        }
+
+        // ---------- Google Sheets (Apps Script) Integration ----------
+        if (process.env.GOOGLE_APP_SCRIPT_URL) {
+            try {
+                console.log("script started!");
+
+                const response = await fetch(process.env.GOOGLE_APP_SCRIPT_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ name, email, phone, message }),
+                });
+
+                const text = await response.text();
+                try {
+                    const data = JSON.parse(text);
+                    console.log("script finished with JSON:", data);
+                } catch (e) {
+                    console.log("script finished with HTML/Text response. Make sure your Google Apps Script is deployed with 'Who has access' set to 'Anyone', and ends with /exec. Response preview:", text.substring(0, 100));
+                }
+
+            } catch (err) {
+                console.error('Google App Script Webhook error:', err);
+                // We won't block the response to the user if the spreadsheet logging fails
+            }
+        }
+
+        if (error) {
             return NextResponse.json({ error: 'Failed to send email', details: error }, { status: 500 });
         }
 
-        return NextResponse.json({ message: 'Email sent successfully', data }, { status: 200 });
+        return NextResponse.json({ message: 'Message sent successfully', data }, { status: 200 });
     } catch (error) {
         console.error('Email send error:', error);
         if (error instanceof ZodError) {

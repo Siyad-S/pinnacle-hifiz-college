@@ -1,51 +1,102 @@
-import { NextAuthOptions } from "next-auth";
-import CredentialsProvider from "next-auth/providers/credentials";
+import { NextAuthOptions, DefaultSession } from "next-auth";
+import GoogleProvider from "next-auth/providers/google";
+import connectMongo from "./mongoose";
+import { User } from "../models/User";
 
-// In a real production app, verify against a database user collection.
-// For now, hardcoding an admin user via environment variables for simplicity as per requirement.
-const ADMIN_EMAIL = process.env.ADMIN_EMAIL || "admin@example.com";
-const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "admin123";
+// Extend NextAuth types to include role id
+declare module "next-auth" {
+  interface Session {
+    user: {
+      id: string;
+      role: string;
+    } & DefaultSession["user"];
+  }
+  interface User {
+    id: string;
+    role: string;
+  }
+}
 
 export const authOptions: NextAuthOptions = {
     providers: [
-        CredentialsProvider({
-            name: "Credentials",
-            credentials: {
-                email: { label: "Email", type: "email" },
-                password: { label: "Password", type: "password" }
-            },
-            async authorize(credentials) {
-                if (!credentials?.email || !credentials?.password) {
-                    return null;
-                }
-
-                // Simple strict equality check for this prototype
-                if (credentials.email === ADMIN_EMAIL && credentials.password === ADMIN_PASSWORD) {
-                    return { id: "1", name: "Admin", email: ADMIN_EMAIL };
-                }
-
-                return null;
-            }
+        GoogleProvider({
+            clientId: process.env.GOOGLE_CLIENT_ID || "",
+            clientSecret: process.env.GOOGLE_CLIENT_SECRET || "",
         })
     ],
     pages: {
         signIn: '/admin/login',
+        error: '/admin/login'
     },
     session: {
         strategy: "jwt",
+        maxAge: 60 * 60 * 24, // 24 hours
     },
     callbacks: {
+        async signIn({ user, account }) {
+            try {
+                if (account?.provider === "google") {
+                    await connectMongo();
+
+                    // Check if any admin already exists in the database
+                    const existingAdmin = await User.findOne({ role: "ADMIN" });
+
+                    if (!existingAdmin) {
+                        // No admin yet — the very first sign-in automatically becomes ADMIN
+                        console.log(`[AUTH] No admin found. Promoting first user ${user.email} to ADMIN.`);
+                        await User.findOneAndUpdate(
+                            { email: user.email },
+                            {
+                                name: user.name,
+                                image: user.image,
+                                role: "ADMIN",
+                            },
+                            { upsert: true, new: true }
+                        );
+                        return true;
+                    }
+
+                    // An admin already exists — only allow that exact admin account
+                    if (existingAdmin.email === user.email) {
+                        return true;
+                    }
+
+                    console.log(`[AUTH] Access denied for ${user.email}. Admin already exists: ${existingAdmin.email}`);
+                    // Any other user is blocked (NextAuth will redirect to ?error=AccessDenied)
+                    return false;
+                }
+                return true;
+            } catch (error) {
+                console.error("[AUTH] Error in signIn callback:", error);
+                return false;
+            }
+        },
         async jwt({ token, user }) {
-            // Add user info to token
-            if (user) {
-                token.id = user.id;
+            try {
+                if (user) {
+                    // Initial sign in
+                    await connectMongo();
+                    const dbUser = await User.findOne({ email: user.email });
+                    
+                    if (dbUser) {
+                        token.id = dbUser._id.toString();
+                        token.role = dbUser.role || "USER";
+                    } else {
+                        // Fallback if user not found in DB immediately after sign-in (e.g. race condition)
+                        console.warn(`[AUTH] User ${user.email} not found in DB during JWT callback`);
+                        token.id = user.id;
+                        token.role = "USER";
+                    }
+                }
+            } catch (error) {
+                console.error("[AUTH] Error in jwt callback:", error);
             }
             return token;
         },
         async session({ session, token }) {
-            // Add token info to session
             if (session.user) {
-                (session.user as any).id = token.id;
+                session.user.id = token.id as string;
+                session.user.role = token.role as string;
             }
             return session;
         }

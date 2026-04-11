@@ -13,7 +13,7 @@ interface CanvasWrapperProps {
 
 export default function CanvasWrapper({
     children,
-    className = "absolute inset-0 z-0",
+    className = "absolute inset-0 -z-10 pointer-events-none",
     fov = 45,
     cameraPosition = [0, 0, 10],
 }: CanvasWrapperProps) {

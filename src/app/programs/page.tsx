@@ -1,13 +1,25 @@
 import type { Metadata } from "next";
-import { siteContent } from "@/data/siteContent";
-
-export const metadata: Metadata = {
-  title: "Programs",
-  description: "Explore our pathways to Quranic excellence with combined Hifz and CBSE education.",
-};
+import { getSiteContent } from "@/lib/getContent";
 import ProgramsGrid from "@/components/ui/ProgramsGrid";
 
-export default function ProgramsPage() {
+export async function generateMetadata(): Promise<Metadata> {
+  const siteContent = await getSiteContent();
+  return {
+    title: "Programs | " + siteContent.metadata.name,
+    description: "Explore our pathways to Quranic excellence with combined Hifz and CBSE education.",
+    alternates: {
+      canonical: "/programs",
+    },
+    openGraph: {
+      title: "Programs | " + siteContent.metadata.name,
+      description: "Explore our pathways to Quranic excellence with combined Hifz and CBSE education.",
+      url: "/programs",
+    },
+  };
+}
+
+export default async function ProgramsPage() {
+    const siteContent = await getSiteContent();
     return (
         <main className="pt-24 min-h-screen">
             <div className="container mx-auto px-4 py-12">

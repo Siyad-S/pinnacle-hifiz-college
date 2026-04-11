@@ -9,7 +9,7 @@ export const siteContent: SiteContent = {
 
     hero: {
         type: "image",
-        src: "/images/stats-banner.png",
+        src: "/images/banner.jpeg",
         poster: "/images/hero-fallback.jpg",
         title: "Pinnacle Hifzul Quran Academy",
         subtitle: "Established 2016. A distinguished institution where students pursue Hifz-ul-Qur’an alongside CBSE school education in a nurturing environment.",
@@ -129,9 +129,10 @@ export const siteContent: SiteContent = {
             phone: "",
             mapEmbedUrl: "https://www.google.com/maps/embed?pb=...", // Add real Google Maps Embed URL here
             socials: {
-                facebook: "https://facebook.com",
-                instagram: "https://instagram.com",
-                youtube: "https://youtube.com",
+                // facebook: "https://facebook.com",
+                instagram: "https://www.instagram.com/pinnaclehifzacademy?utm_source=qr&igsh=M25kbXkzd2ZhcG05",
+                // youtube: "https://youtube.com",
+                whatsapp: "https://wa.me/+919037107840",
             },
         },
     },

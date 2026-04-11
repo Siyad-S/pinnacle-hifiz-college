@@ -1,10 +1,11 @@
 'use client';
-import { siteContent } from '@/data/siteContent';
+import { useSiteContent } from '@/components/layout/SiteContentProvider';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
 export default function Footer() {
     const pathname = usePathname();
+    const siteContent = useSiteContent();
     if (pathname.startsWith('/admin')) return null;
 
     return (

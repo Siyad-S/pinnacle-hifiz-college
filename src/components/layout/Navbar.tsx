@@ -3,20 +3,21 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
-import { siteContent } from '@/data/siteContent';
+import { useSiteContent } from '@/components/layout/SiteContentProvider';
 import { Menu, X } from 'lucide-react';
 import Image from 'next/image';
-
-const navLinks = [
-    { name: 'Home', href: '/' },
-    { name: siteContent.about.title, href: '/about' },
-    { name: 'Programs', href: '/programs' },
-    { name: siteContent.contact.title, href: '/contact', isCta: true },
-];
 
 export default function Navbar() {
     const pathname = usePathname();
     const [isOpen, setIsOpen] = useState(false);
+    const siteContent = useSiteContent();
+
+    const navLinks = [
+        { name: 'Home', href: '/' },
+        { name: siteContent.about.title, href: '/about' },
+        { name: 'Programs', href: '/programs' },
+        { name: siteContent.contact.title, href: '/contact', isCta: true },
+    ];
 
     // Don't show navbar on admin dashboard
     if (pathname.startsWith('/admin')) return null;

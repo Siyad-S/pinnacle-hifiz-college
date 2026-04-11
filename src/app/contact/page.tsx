@@ -1,13 +1,25 @@
 import type { Metadata } from "next";
-import { siteContent } from '@/data/siteContent';
-
-export const metadata: Metadata = {
-  title: "Contact Us",
-  description: "Get in touch with us for admissions, inquiries, and more information about our programs.",
-};
+import { getSiteContent } from '@/lib/getContent';
 import ContactForm from '@/components/ui/ContactForm';
 
-export default function ContactPage() {
+export async function generateMetadata(): Promise<Metadata> {
+  const siteContent = await getSiteContent();
+  return {
+    title: "Contact Us | " + siteContent.metadata.name,
+    description: "Get in touch with us for admissions, inquiries, and more information about our programs.",
+    alternates: {
+      canonical: "/contact",
+    },
+    openGraph: {
+      title: "Contact Us | " + siteContent.metadata.name,
+      description: "Get in touch with us for admissions, inquiries, and more information about our programs.",
+      url: "/contact",
+    },
+  };
+}
+
+export default async function ContactPage() {
+    const siteContent = await getSiteContent();
     return (
         <main className="min-h-screen pt-20">
             <ContactForm
