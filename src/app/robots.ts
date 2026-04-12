@@ -1,9 +1,9 @@
 import { MetadataRoute } from 'next';
 
 export default function robots(): MetadataRoute.Robots {
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL 
-    ? `https://${process.env.NEXT_PUBLIC_SITE_URL}` 
-    : 'https://pinnaclehifz.com';
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL
+    ? `https://${process.env.NEXT_PUBLIC_SITE_URL}`
+    : 'https://www.pinnaclehifzulquranacademy.com';
 
   return {
     rules: {

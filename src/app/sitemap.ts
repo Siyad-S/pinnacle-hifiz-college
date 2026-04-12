@@ -4,7 +4,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   // Fix the empty fallback so the sitemap generates absolute URIs correctly
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL
     ? `https://${process.env.NEXT_PUBLIC_SITE_URL}`
-    : '';
+    : 'https://www.pinnaclehifzulquranacademy.com';
 
   return [
     {

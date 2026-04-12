@@ -26,7 +26,7 @@ const amiri = Amiri({
   display: "swap",
 });
 
-const defaultUrl = process.env.NEXT_PUBLIC_SITE_URL ? `https://${process.env.NEXT_PUBLIC_SITE_URL}` : "https://pinnaclehifz.com";
+const defaultUrl = process.env.NEXT_PUBLIC_SITE_URL ? `https://${process.env.NEXT_PUBLIC_SITE_URL}` : "https://www.pinnaclehifzulquranacademy.com";
 
 export async function generateMetadata(): Promise<Metadata> {
   const siteContent = await getSiteContent();
@@ -80,10 +80,7 @@ export async function generateMetadata(): Promise<Metadata> {
     },
     alternates: {
       canonical: "/",
-    },
-    verification: {
-      google: "google-site-verification-id-goes-here",
-    },
+    }
   };
 }
 
