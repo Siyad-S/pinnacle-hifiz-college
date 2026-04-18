@@ -26,7 +26,7 @@ const amiri = Amiri({
   display: "swap",
 });
 
-const defaultUrl = process.env.NEXT_PUBLIC_SITE_URL ? `https://${process.env.NEXT_PUBLIC_SITE_URL}` : "https://www.pinnaclehifzulquranacademy.com";
+const defaultUrl = process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : `https://${process.env.NEXT_PUBLIC_SITE_URL}`;
 
 export async function generateMetadata(): Promise<Metadata> {
   const siteContent = await getSiteContent();
